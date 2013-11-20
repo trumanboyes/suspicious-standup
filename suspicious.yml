@@ -1,0 +1,59 @@
+---
+- hosts: [suspicious, ocean]
+  #vars_files:
+  #  - vars.yml
+  gather_facts: false
+  sudo: true
+  user: root
+  tasks:
+    - name: update packages
+      apt: upgrade=dist
+      apt: update_cache=yes
+    - name: install pkgs necessary for my system
+      apt: pkg=$item
+      with_items:
+      - build-essential
+      - git-core
+      - zsh
+      - nano-tiny
+      - openssh-server
+      - curl
+      - vim
+      - screen
+      - mosh
+      - bind9
+      - bind9utils
+      - bash
+      - curl
+      - dnsutils
+      - finger
+      - ftp
+      - gcc
+      - gnupg
+      - m4
+      - lsof
+      - nano
+      - nginx
+      - netcat-openbsd
+      - ntp
+      - ntpdate
+      - procmail
+      - strace
+      - telnet
+      - tmux
+      - tcpdump
+      - zsh
+
+- hosts: ocean
+  user: root 
+  tasks: 
+   - name: download webmin
+     get_url: url=http://prdownloads.sourceforge.net/webadmin/webmin-1.650.tar.gz dest=/root/
+   - name: move to /usr/share
+     action: copy src=/root/webmin-1.650.tar.gz dest=/usr/share/
+   - name: untar webmin
+     action: command tar -xzf /usr/share/webmin-1.650.tar.gz 
+   
+
+  
+
